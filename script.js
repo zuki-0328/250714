@@ -1,44 +1,107 @@
-let currentQuestion = 0;
-let quizData = [];
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("study-form");
+    const examFilter = document.getElementById("examFilter");
+    const dataTableBody = document.querySelector("#dataTable tbody");
+    const chartCanvas = document.getElementById("progressChart");
+    let chart;
 
-fetch('quiz.json')
-  .then(response => response.json())
-  .then(data => {
-    quizData = data;
-    showQuestion();
-  });
+    // データ読み込み
+    function loadData() {
+        const data = JSON.parse(localStorage.getItem("studyData") || "[]");
+        return data;
+    }
 
-function showQuestion() {
-  const questionEl = document.getElementById('question');
-  const choicesEl = document.getElementById('choices');
-  const resultEl = document.getElementById('result');
-  resultEl.textContent = '';
-  choicesEl.innerHTML = '';
+    // データ保存
+    function saveData(entry) {
+        const data = loadData();
+        data.push(entry);
+        localStorage.setItem("studyData", JSON.stringify(data));
+    }
 
-  const q = quizData[currentQuestion];
-  questionEl.textContent = q.question;
+    // 表の更新
+    function updateTable(data) {
+        dataTableBody.innerHTML = "";
+        data.forEach(entry => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${entry.examName}</td>
+                <td>${entry.date}</td>
+                <td>${entry.answers}</td>
+                <td>${entry.correctAnswers}</td>
+            `;
+            dataTableBody.appendChild(row);
+        });
+    }
 
-  q.choices.forEach(choice => {
-    const li = document.createElement('li');
-    li.textContent = choice;
-    li.onclick = () => checkAnswer(choice);
-    choicesEl.appendChild(li);
-  });
-}
+    // 試験名フィルターの更新
+    function updateExamFilter(data) {
+        const exams = [...new Set(data.map(d => d.examName))];
+        examFilter.innerHTML = "";
+        exams.forEach(exam => {
+            const option = document.createElement("option");
+            option.value = exam;
+            option.textContent = exam;
+            examFilter.appendChild(option);
+        });
+    }
 
-function checkAnswer(selected) {
-  const resultEl = document.getElementById('result');
-  const correct = quizData[currentQuestion].answer;
-  if (selected === correct) {
-    resultEl.textContent = '正解！';
-    resultEl.style.color = 'green';
-  } else {
-    resultEl.textContent = `不正解。正解は「${correct}」です。`;
-    resultEl.style.color = 'red';
-  }
-}
+    // グラフの更新
+    function updateChart(data, examName) {
+        const filtered = data.filter(d => d.examName === examName);
+        const labels = filtered.map(d => d.date);
+        const values = filtered.map(d => d.correctAnswers);
 
-document.getElementById('next-btn').onclick = () => {
-  currentQuestion = (currentQuestion + 1) % quizData.length;
-  showQuestion();
-};
+        if (chart) chart.destroy();
+        chart = new Chart(chartCanvas, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "正解数",
+                    data: values,
+                    borderColor: "#3498db",
+                    backgroundColor: "rgba(52, 152, 219, 0.2)",
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: "日付" } },
+                    y: { title: { display: true, text: "正解数" }, beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    // フォーム送信イベント
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const entry = {
+            examName: document.getElementById("examName").value,
+            date: document.getElementById("date").value,
+            answers: parseInt(document.getElementById("answers").value),
+            correctAnswers: parseInt(document.getElementById("correctAnswers").value)
+        };
+        saveData(entry);
+        const data = loadData();
+        updateTable(data);
+        updateExamFilter(data);
+        updateChart(data, examFilter.value);
+        form.reset();
+    });
+
+    // 試験名選択イベント
+    examFilter.addEventListener("change", () => {
+        const data = loadData();
+        updateChart(data, examFilter.value);
+    });
+
+    // 初期表示
+    const initialData = loadData();
+    updateTable(initialData);
+    updateExamFilter(initialData);
+    if (initialData.length > 0) {
+        updateChart(initialData, examFilter.value);
+    }
+});

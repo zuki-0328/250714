@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>セキュリティ用語クイズ</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>過去問道場 勉強進捗管理</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>セキュリティ用語クイズ</h1>
-  <div id="quiz-container">
-    <p id="question"></p>
-    <ul id="choices"></ul>
-    <button id="next-btn">次の問題</button>
-    <p id="result"></p>
-  </div>
-  <script src="script.js"></script>
+    <h1>📘 過去問道場 勉強進捗管理</h1>
+
+    <section id="input-section">
+        <h2>📝 勉強進捗の入力</h2>
+        <form id="study-form">
+            <label for="examName">過去問道場名:</label>
+            <input type="text" id="examName" required>
+
+            <label for="date">日付:</label>
+            <input type="date" id="date" required>
+
+            <label for="answers">回答数:</label>
+            <input type="number" id="answers" min="0" required>
+
+            <label for="correctAnswers">正解数:</label>
+            <input type="number" id="correctAnswers" min="0" required>
+
+            <button type="submit">保存</button>
+        </form>
+    </section>
+
+    <section id="dashboard-section">
+        <h2>📊 ダッシュボード</h2>
+        <label for="examFilter">過去問道場名を選択:</label>
+        <select id="examFilter"></select>
+
+        <canvas id="progressChart"></canvas>
+
+        <h3>📋 入力履歴</h3>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>過去問道場名</th>
+                    <th>日付</th>
+                    <th>回答数</th>
+                    <th>正解数</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    https://cdn.jsdelivr.net/npm/chart.js
+    <script src="script.js"></script>
 </body>
 </html>
