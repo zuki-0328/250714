@@ -1,68 +1,49 @@
-/* 全体の基本スタイル */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
-    background-color: #f4f8fc;
-    color: #333;
-}
-
-/* タイトルや見出しの色 */
-h1, h2, h3 {
-    color: #2c3e50;
-}
-
-/* 入力フォームのレイアウト */
-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    max-width: 600px;
-    margin-bottom: 20px;
-}
-
-/* ラベルは2列分使う */
-form label {
-    grid-column: span 2;
-}
-
-/* 入力欄とボタンのスタイル */
-form input, form button {
-    padding: 8px;
-    font-size: 1em;
-}
-
-/* ボタンのデザイン */
-form button {
-    grid-column: span 2;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-form button:hover {
-    background-color: #2980b9;
-}
-
-/* 表のスタイル */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
-}
-
-th, td {
-    padding: 8px;
+    background-color: #ffe4e1;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #d63384;
     text-align: center;
 }
 
-/* グラフのスタイル */
-canvas {
-    max-width: 100%;
-    margin-top: 20px;
+h1, h2 {
+    color: #ff69b4;
+    text-shadow: 1px 1px 2px #ffc0cb;
+}
+
+form {
+    background-color: #fff0f5;
+    border: 2px solid #ffb6c1;
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+}
+
+input, label {
+    display: block;
+    margin: 10px auto;
+    font-size: 1.1em;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    border: 2px solid #ffb6c1;
+    border-radius: 10px;
+    padding: 5px;
+    width: 60%;
+}
+
+button {
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff1493;
 }
