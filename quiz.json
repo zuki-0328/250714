@@ -1,0 +1,17 @@
+[
+  {
+    "question": "CSIRTとは何の略？",
+    "choices": ["Computer Security Incident Response Team", "Cyber Security Internal Response Task", "Central Security Investigation and Response Team"],
+    "answer": "Computer Security Incident Response Team"
+  },
+  {
+    "question": "ISMSの目的は？",
+    "choices": ["情報の可視化", "情報セキュリティの管理", "ネットワークの高速化"],
+    "answer": "情報セキュリティの管理"
+  },
+  {
+    "question": "マルウェアの一種で、身代金を要求するものは？",
+    "choices": ["スパイウェア", "ランサムウェア", "アドウェア"],
+    "answer": "ランサムウェア"
+  }
+]
